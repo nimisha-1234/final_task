@@ -1,0 +1,52 @@
+
+<div class="container">
+    <h2>REGISTRATION</h2>
+
+    <div class="row justify-content-center">
+        <div class="card-body">
+            <form action="{% url 'credentials:register' %}" method="POST">
+
+                    {% csrf_token %}
+        
+                <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                <label for="firstname">FirstName</label>
+                <input type="text" name="firstname" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                <label for="lastname">LastName</label>
+                <input type="text" name="lastname" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                <label for="password1">Confirm Password</label>
+                <input type="password" name="password1" class="form-control" required>
+                </div>
+
+                <br>
+                <input type="submit" value="Register" class="btn btn-success">
+
+            </form>
+
+            </div>
+
+
+    </div>
+
+</div>
+

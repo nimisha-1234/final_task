@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MOVIE</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<!-- Image and text -->
+<div class="container">
+    <div class="row">
+        <a class="nav-item">
+            <nav class="navbar light bg-light"><h3>*If you are new member click REGISTER and comeback to Home Page and LOGIN to website*</h3>
+            {% if user.is_authenticated %}
+                Hello {{user.username}}
+                <a href="credentials/logout"> LOGOUT</a><br>
+
+                {% else %}
+                <a class="btn btn-primary" href="credentials/register"> REGISTER</a><br>
+                <a class="btn btn-primary" href="credentials/login"> LOGIN</a>
+                {% endif %}
+            </nav>
+        </a>
+    </div>
+</div>
+<nav class="navbar dark bg-dark">
+  <a class="navbar-brand" href="{% url 'movieapp:index' %}">MOVIE WEBSITE RECOMMENDATION</a>
+</nav>
+<nav class="navbar dar bg-dark">
+    <a class="btn btn-warning" href="{% url 'movieapp:add_movie' %}">ADD MOVIES</a>
+</nav>
+<nav class="navbar dar bg-dark">
+    <a class="btn btn-warning" href="{% url 'movieapp:search_movies' %}">SEARCH</a>
+</nav>
+
+{% block body %}
+{% endblock %}
+</body>
+</html>

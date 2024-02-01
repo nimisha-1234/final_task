@@ -1,0 +1,23 @@
+<!-- search_results.html -->
+
+<h2>Search Results for "{{ query }}"</h2>
+<ul>
+    {% for movie in results %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-d">
+                <img src="{{movie.img.url}}" width="300" height="=300">
+            </div>
+    <div class="col-md-6">
+        <h4>{{movie.movie_name}}</h4>
+        <h6>{{movie.desc}}</h6>
+        <h6>{{movie.actor_name}}</h6>
+        <h6>{{movie.release_date}}</h6>
+        <h6><a href="{{movie.movie_link}}">Movie Trailer Link</a></h6><br>
+    </div>
+        </div>
+    </div><!-- Display other movie details as needed -->
+    {% empty %}
+        <li>No results found.</li>
+    {% endfor %}
+</ul>

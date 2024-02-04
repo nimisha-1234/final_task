@@ -21,8 +21,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('credentials/', include('credentials.urls')),
-    path('', include('movieapp.urls')),
+    path('credentials/', include('credentials.urls',namespace='credentials')),
+    path('', include('movieapp.urls',namespace='movieapp')),
 
 ]
 if settings.DEBUG:

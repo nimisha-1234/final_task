@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,5 +37,91 @@
 
 {% block body %}
 {% endblock %}
+</body>
+</html> {% endcomment %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MOVIE</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-top: 0px;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'movieapp:index' %}">MOVIE WEBSITE RECOMMENDATION</a>
+    
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% comment %} <li class="nav-item">
+                        <a class="nav-link" href="{% url 'movieapp:index' %}">Genres</a>
+                    </li> {% endcomment %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownGenres" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Genres
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownGenres">
+                            {% for category in categories %}
+                                <a class="dropdown-item" href="{% url 'movieapp:index' %}?category={{ category.name }}">{{ category.name }}</a>
+                            {% endfor %}
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'movieapp:add_movie' %}">Add Movie</a>
+                    </li>
+                                        
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'movieapp:search_movies' %}">Search</a>
+                    </li>
+                </ul>
+            
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="{% url 'credentials:user_edit' %}" class="nav-link">Hello {{user.username}}!</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'credentials:logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'credentials:login' %}">Login</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+            
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        {% block body %}
+        {% endblock %}
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(".dropdown-toggle").click(function() {
+                $(".dropdown-menu").toggle();
+            });
+    
+            $(document).on("click", function(event) {
+                var $trigger = $(".dropdown-toggle");
+                if ($trigger !== event.target && !$trigger.has(event.target).length) {
+                    $(".dropdown-menu").hide();
+                }
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import MovieForms, SearchForm
 from .models import Movie, Category
+from django.contrib import messages
 
 
 # Create your views here.@login_required(login_url='credentials/register')
+
 def index(request):
     category = request.GET.get('category')
     if category == None:
@@ -25,13 +27,16 @@ def details(request, movie_id):
     return render(request, "details.html", {'movie': movie})
 
 
+@login_required(login_url='credentials:login')
 def add_movie(request):
     form = MovieForms()
 
     if request.method == 'POST':
         form = MovieForms(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            movie = form.save(commit=False)
+            movie.added_by = request.user
+            movie.save()
             return redirect('/')
     else:
         form = MovieForms()
@@ -42,21 +47,32 @@ def add_movie(request):
 
     return render(request, 'add.html', context)
 
-
+@login_required(login_url='credentials:login')
 def update(request, id):
     movie = Movie.objects.get(id=id)
-    form = MovieForms(request.POST or None, request.FILES, instance=movie)
-    if form.is_valid():
-        form.save()
-        return redirect('/')
-    return render(request, 'edit.html', {'form': form, 'movie': movie})
+    categories = Category.objects.all()
+    if request.user == movie.added_by:
+        form = MovieForms(request.POST or None, request.FILES, instance=movie)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        return render(request, 'edit.html', {'form': form, 'movie': movie})
+    else:
+        messages.error(request,'Your are not authorised to update it')
+        return redirect('movieapp:details',movie_id=id)
+    
+    return render(request,'edit.html',{'movie':movie,'categories':categories})
 
 
+@login_required(login_url='credentials:login')
 def delete(request, id):
-    if request.method == 'POST':
-        movie = Movie.objects.get(id=id)
+    movie = Movie.objects.get(id=id)
+    if request.user == movie.added_by:
         movie.delete()
         return redirect('/')
+    else:
+        messages.error(request,'Your are not authorised to update it')
+        return redirect('movieapp:details',movie_id=id)
     return render(request, 'delete.html')
 
 

@@ -2,6 +2,7 @@
 {% block body %}
 
 <div class="container">
+  
     <div class="row">
         {% for i in movie_list %}
         <div class="my_bottom_margin col-sm-6 col-md-6 col-lg-4 g-4">
@@ -20,20 +21,5 @@
         {% endfor %}
     </div>
 </div>
-<div class="col-md-4">
-    <h2>GENRES</h2>
-    <br>
-    <hr>
-    <a class="list-group-item" href="{% url 'movieapp:index' %}">All Movies</a>
-        {% for category in categories %}
-        <li class="list-group-item">
-            <a class="btn btn-primary" href="{% url 'movieapp:index' %}?category={{ category.name }}">{{category.name}}</a>
-
-        </li>
-        {% endfor %}
-</div>
-
-
-
 
 {% endblock %}
